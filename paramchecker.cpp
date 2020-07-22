@@ -30,7 +30,7 @@ bool vitalsAreOk(std::vector<VitalCheckDetails> vitalDetails)
 	std::vector<bool> result;
 	for (auto vital : vitalDetails)
 	{
-		result.emplace_back(checkmin(vital.value, vitalCheckBoundaryValues[vital.paramType].min) && checkmax(vital.value, vitalCheckBoundaryValues[vital.paramType].max));
+		result.emplace_back(checkmin(vital.value, vitalCheckBoundaryValues[vital.paramType].min) || checkmax(vital.value, vitalCheckBoundaryValues[vital.paramType].max));
 	}
-    return std::none_of(result.begin(), result.end(), [](bool result) {return result != true;});
+    return std::none_of(result.begin(), result.end(), [](bool result) {return result != false;});
 }
