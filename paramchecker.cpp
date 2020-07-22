@@ -1,26 +1,36 @@
 
-bool checkBpm(float bpm)
+#include <map>
+#include <algorithm>
+#include "paramchecker.h"
+
+// Create a lookup table with paramtype as key
+// Add boundary values for all possible parameters
+std::map<VitalCheckParamType, VitalBoundaryValues> vitalCheckBoundaryValues=
 {
-   if(bpm < 70 || bpm > 150) {
-    return false;
-  }
-  return true;
-}
-bool checkSp02(float spo2)
+	{C_BPM, { 70,150 }},
+	{C_SPO2,{ 80,100 } },
+	{C_RESPRATE,{ 30,60 } }
+};
+
+bool checkmin(float rcvValue, float min)
 {
-  if(spo2 < 80) {
-    return false;
-  }
-  return true;
+	// -0.1 for float comparison
+	return (rcvValue < (min - 0.1));
 }
-bool checkRespRate(float respRate)
+
+bool checkmax(float rcvValue, float max)
 {
-  if(respRate < 30 || respRate > 60) {
-   return false;
-  }
-  return true;
+	// +0.1 for float comparison
+	return (rcvValue > (max + 0.1));
 }
-bool vitalsAreOk(float bpm, float spo2, float respRate) {
-  bool retVal = checkBpm(bpm)&& checkSp02(spo2) && checkRespRate(respRate);
-  return retVal;
+
+// Receive list of parameter and value to be checked
+bool vitalsAreOk(std::vector<VitalCheckDetails> vitalDetails)
+{
+	std::vector<bool> result;
+	for (auto vital : vitalDetails)
+	{
+		result.emplace_back(checkmin(vital.value, vitalCheckBoundaryValues[vital.paramType].min) && checkmax(vital.value, vitalCheckBoundaryValues[vital.paramType].max));
+	}
+    return std::none_of(result.begin(), result.end(), [](bool result) {return result != true;});
 }
