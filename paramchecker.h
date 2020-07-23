@@ -17,15 +17,6 @@ struct VitalBoundaryValues
 	float max;
 };
 
-// Create a lookup table with paramtype as key
-// Add boundary values for all possible parameters
-static const std::map<VitalCheckParamType, VitalBoundaryValues> vitalCheckBoundaryValues =
-{
-	{ C_BPM,{ 70,150 } },
-	{ C_SPO2,{ 80,100 } },
-	{ C_RESPRATE,{ 30,60 } }
-};
-
 // type of input and value to be checked
 struct VitalCheckDetails
 {
