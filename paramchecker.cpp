@@ -3,7 +3,7 @@
 
 // Create a lookup table with paramtype as key
 // Add boundary values for all possible parameters
-static const std::map<VitalCheckParamType, VitalBoundaryValues> vitalCheckBoundaryValues =
+std::map<VitalCheckParamType, VitalBoundaryValues> vitalCheckBoundaryValues =
 {
 	{ C_BPM,{ 70,150 } },
 	{ C_SPO2,{ 80,100 } },
