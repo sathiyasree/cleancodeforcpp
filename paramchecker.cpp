@@ -1,7 +1,14 @@
 #include <algorithm>
-#include <vector>
 #include "paramchecker.h"
 
+// Create a lookup table with paramtype as key
+// Add boundary values for all possible parameters
+static const std::map<VitalCheckParamType, VitalBoundaryValues> vitalCheckBoundaryValues =
+{
+	{ C_BPM,{ 70,150 } },
+	{ C_SPO2,{ 80,100 } },
+	{ C_RESPRATE,{ 30,60 } }
+};
 
 VitalCheckResultType checkmin(float rcvValue, float min)
 {
